@@ -2,14 +2,22 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>WASM with Kotlin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WASM with Kotlin</title>
 </head>
 
 <body>
-  <script wasm="./program.wasm" src="./program.wasm.js"></script>
+    <h1>Welcome to WASM with Kotlin</h1>
+    <script wasm="./build/bin/program.wasm" src="./build/bin/program.wasm.js"></script>
+
+    <div>
+        <button id="random_button">Generate random</button>
+    </div>
+
+    <div id="content"></div>
+
 </body>
 
 </html>
