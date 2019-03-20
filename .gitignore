@@ -1,3 +1,12 @@
 *.pem
 build/
 .idea/
+
+_site
+.sass-cache
+.jekyll-metadata
+
+Gemfile
+Gemfile.lock
+
+.DS_Store
