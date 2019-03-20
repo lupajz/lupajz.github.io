@@ -7,6 +7,8 @@ author: Lubos Mudrak
 twitter_username: lupajz
 github_username: lupajz
 
+google_analytics: UA-136686526-1
+
 theme: minima
 show_excerpts: true
 permalink: /blog/:year/:month/:day/:title
