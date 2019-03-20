@@ -41,7 +41,7 @@ There are of course some drawbacks here:
 
 ### Small sample in Kotlin with use of Kotlin Android Extensions
 
-MainActivity
+MainActivity.kt
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
