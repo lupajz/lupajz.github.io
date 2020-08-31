@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>runnable on Blog</title>
+    <link>/tags/runnable/</link>
+    <description>Recent content in runnable on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Aug 2018 12:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/runnable/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>It’s not the Runnable you’re looking for</title>
+      <link>/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/</link>
+      <pubDate>Fri, 03 Aug 2018 12:00:00 +0100</pubDate>
+      
+      <guid>/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/</guid>
+      <description>So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.
+Let me describe the problem here. My colleague asked if I know how one could debounce LiveData emissions, similar to behaviour of debounce operator of RxJava, with a help of MediatorLiveData and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:</description>
+    </item>
+    
+  </channel>
+</rss>

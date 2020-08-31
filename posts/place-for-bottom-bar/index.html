@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>A place for BottomAppBar :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Last week as Google announced release of Android P preview they also release first alpha version of new support library that includes, amongst many interesting changes, new additions to design support library. From now on the library will include new MaterialButton, MaterialCardView, layout for Chips and BottomAppBar, also I hope we’ll get BackLayerLayout in future releases.
+BottomAppBar, being an extensions of Toolbar, feels like a compromise to provide user with some actions comfortably without the need to reach for them with thumb in the Toolbar on top on devices with bigger screen." />
+<meta name="keywords" content="kotlin, " />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/posts/place-for-bottom-bar/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/style.min.css">
+
+
+  
+  
+  <link rel="stylesheet" href="/css/color/green.min.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/img/favicon/green.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:creator" content="LubosMudrak" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="A place for BottomAppBar :: Blog">
+<meta property="og:description" content="Last week as Google announced release of Android P preview they also release first alpha version of new support library that includes, amongst many interesting changes, new additions to design support library. From now on the library will include new MaterialButton, MaterialCardView, layout for Chips and BottomAppBar, also I hope we’ll get BackLayerLayout in future releases.
+BottomAppBar, being an extensions of Toolbar, feels like a compromise to provide user with some actions comfortably without the need to reach for them with thumb in the Toolbar on top on devices with bigger screen." />
+<meta property="og:url" content="/posts/place-for-bottom-bar/" />
+<meta property="og:site_name" content="A place for BottomAppBar" />
+
+  
+    <meta property="og:image" content="/img/favicon/green.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2019-03-15 16:50:41 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/posts/place-for-bottom-bar/">A place for BottomAppBar</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2019-03-15 
+      </span>
+    
+    
+    <span class="post-author">:: Lubos Mudrak</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="/tags/bottomappbar/">bottomappbar</a>&nbsp;
+    
+    #<a href="/tags/material/">material</a>&nbsp;
+    
+  </span>
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>Last week as Google announced release of Android P preview they also release first alpha version of new support library that includes, amongst many interesting changes, new additions to design support library. From now on the library will include new MaterialButton, MaterialCardView, layout for Chips and BottomAppBar, also I hope we’ll get BackLayerLayout in future releases.</p>
+<p>BottomAppBar, being an extensions of Toolbar, feels like a compromise to provide user with some actions comfortably without the need to reach for them with thumb in the Toolbar on top on devices with bigger screen.</p>
+<p>It comes with semi-circular cutout that cradles the attached FloatingActionButton with options to set cradleDiameter, roundedCornerRadius and vertical offset of our FloatingActionButton which, if set, would change the semi-circle into arc.
+For positioning the attached FloatingActionButton we can choose one of two alignment modes FAB_ALIGNMENT_MODE_CENTER or FAB_ALIGNMENT_MODE_END</p>
+<p>Setup seems to be straightforward (unless I’ve missed something obvious). Just place the the BottomAppBar and FloatingActionButton into parent CoordinatorLayout and set app:layout_anchor attribute of FloatingActionButton to reference id of BottomAppBar.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;android.support.design.widget.CoordinatorLayout</span>
+    <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">tools:context=</span><span style="color:#e6db74">&#34;.MainActivity&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;android.support.design.bottomappbar.BottomAppBar</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/bottom_appbar&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_gravity=</span><span style="color:#e6db74">&#34;bottom&#34;</span>
+        <span style="color:#a6e22e">app:theme=</span><span style="color:#e6db74">&#34;@style/ThemeOverlay.AppCompat.Dark.ActionBar&#34;</span>
+        <span style="color:#a6e22e">app:popupTheme=</span><span style="color:#e6db74">&#34;@style/ThemeOverlay.AppCompat.Light&#34;</span>
+        <span style="color:#a6e22e">app:fabAttached=</span><span style="color:#e6db74">&#34;true&#34;</span>
+        <span style="color:#a6e22e">app:backgroundTint=</span><span style="color:#e6db74">&#34;@color/colorPrimary&#34;</span>
+        <span style="color:#a6e22e">app:fabCradleVerticalOffset=</span><span style="color:#e6db74">&#34;12dp&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;/android.support.design.bottomappbar.BottomAppBar&gt;</span>
+
+    <span style="color:#f92672">&lt;android.support.design.widget.FloatingActionButton</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/fab&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_gravity=</span><span style="color:#e6db74">&#34;bottom|center_horizontal&#34;</span>
+        <span style="color:#a6e22e">android:src=</span><span style="color:#e6db74">&#34;@drawable/ic_add_white_24dp&#34;</span>
+        <span style="color:#a6e22e">app:layout_anchor=</span><span style="color:#e6db74">&#34;@+id/bottom_appbar&#34;</span><span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;FrameLayout</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span><span style="color:#f92672">&gt;</span>
+
+        <span style="color:#f92672">&lt;android.support.design.button.MaterialButton</span>
+            <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/toggle_alignment&#34;</span>
+            <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+            <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;48dp&#34;</span>
+            <span style="color:#a6e22e">android:layout_gravity=</span><span style="color:#e6db74">&#34;center&#34;</span>
+            <span style="color:#a6e22e">android:textColor=</span><span style="color:#e6db74">&#34;#fff&#34;</span>
+            <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;Toggle FAB alignment&#34;</span>
+            <span style="color:#a6e22e">app:backgroundTint=</span><span style="color:#e6db74">&#34;@color/colorPrimary&#34;</span><span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;/FrameLayout&gt;</span>
+
+<span style="color:#f92672">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span>
+</code></pre></div><p>To set menu options you can provide Menu resource to your BottomAppBar in code by calling BottomAppBar.replaceMenu(R.menu.xxx) and to toggle the alignment I created a simple extensions function</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> kotlinx...bottom_appbar
+<span style="color:#66d9ef">import</span> kotlinx...fab
+<span style="color:#66d9ef">import</span> kotlinx...toggle_alignment
+<span style="color:#75715e">// using kotlin-android-extensions here for findViewById calls
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BottomAppBarActivity</span> : AppCompatActivity() {
+
+  <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+    <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+    setContentView(R.layout.actvity_bottom_appbar)
+
+    <span style="color:#75715e">//setSupportActionBar(bottom_appbar) calling this breaks it!    
+</span><span style="color:#75715e"></span>    
+    <span style="color:#75715e">// setting the menu
+</span><span style="color:#75715e"></span>    bottom_appbar.replaceMenu(R.menu.bottom_appbar_menu)    
+    toggle_alignment.setOnClickListener {
+      bottom_appbar.toggleAlignment()
+    }
+ } 
+ 
+ <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">BottomAppBar</span>.toggleAlignment() {
+   <span style="color:#66d9ef">val</span> current = fabAlignmentMode
+   fabAlignmentMode = current.xor(<span style="color:#ae81ff">1</span>)
+ }
+}
+</code></pre></div><p>As mentioned before, since we have two alignment modes, one can toggle between them with some nice animation</p>
+<p>Some notes to takeaway:</p>
+<ul>
+<li>Don’t call setSupportActionBar() with your provided BottomAppBar as it will break it</li>
+<li>To change the background colour you should call app:backgroundTint instead of setBackground because of internal management of background</li>
+<li>Calling setTitle or setSubtitle will have no effect as these methods are overriden and empty</li>
+</ul>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="/posts/testing-generated-kotlin-code/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Testing Generated Kotlin Code</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/">
+                <span class="button__text">It’s not the Runnable you’re looking for</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="/js/menu.js"></script>
+<script src="/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog</title>
+    <link>/</link>
+    <description>Recent content on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Jan 2020 16:50:41 +0200</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Testing Generated Kotlin Code</title>
+      <link>/posts/testing-generated-kotlin-code/</link>
+      <pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate>
+      
+      <guid>/posts/testing-generated-kotlin-code/</guid>
+      <description>I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
+ To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code.</description>
+    </item>
+    
+    <item>
+      <title>A place for BottomAppBar</title>
+      <link>/posts/place-for-bottom-bar/</link>
+      <pubDate>Fri, 15 Mar 2019 16:50:41 +0200</pubDate>
+      
+      <guid>/posts/place-for-bottom-bar/</guid>
+      <description>Last week as Google announced release of Android P preview they also release first alpha version of new support library that includes, amongst many interesting changes, new additions to design support library. From now on the library will include new MaterialButton, MaterialCardView, layout for Chips and BottomAppBar, also I hope we’ll get BackLayerLayout in future releases.
+BottomAppBar, being an extensions of Toolbar, feels like a compromise to provide user with some actions comfortably without the need to reach for them with thumb in the Toolbar on top on devices with bigger screen.</description>
+    </item>
+    
+    <item>
+      <title>It’s not the Runnable you’re looking for</title>
+      <link>/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/</link>
+      <pubDate>Fri, 03 Aug 2018 12:00:00 +0100</pubDate>
+      
+      <guid>/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/</guid>
+      <description>So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.
+Let me describe the problem here. My colleague asked if I know how one could debounce LiveData emissions, similar to behaviour of debounce operator of RxJava, with a help of MediatorLiveData and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:</description>
+    </item>
+    
+    <item>
+      <title>Asynchronous layout inflation</title>
+      <link>/posts/2016-06-18-asynchronous-layout-inflation/</link>
+      <pubDate>Sat, 18 Jun 2016 12:00:00 +0100</pubDate>
+      
+      <guid>/posts/2016-06-18-asynchronous-layout-inflation/</guid>
+      <description>With recent release of Android Support Library, revision 24 Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.
+Enter AsyncLayoutInflater You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed.</description>
+    </item>
+    
+  </channel>
+</rss>

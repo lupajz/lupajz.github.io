@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Blog</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Jan 2020 16:50:41 +0200</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>code generation</title>
+      <link>/tags/code-generation/</link>
+      <pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate>
+      
+      <guid>/tags/code-generation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kotlin</title>
+      <link>/tags/kotlin/</link>
+      <pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate>
+      
+      <guid>/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kotlin-compile-testing</title>
+      <link>/tags/kotlin-compile-testing/</link>
+      <pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate>
+      
+      <guid>/tags/kotlin-compile-testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>testing</title>
+      <link>/tags/testing/</link>
+      <pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate>
+      
+      <guid>/tags/testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bottomappbar</title>
+      <link>/tags/bottomappbar/</link>
+      <pubDate>Fri, 15 Mar 2019 16:50:41 +0200</pubDate>
+      
+      <guid>/tags/bottomappbar/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>material</title>
+      <link>/tags/material/</link>
+      <pubDate>Fri, 15 Mar 2019 16:50:41 +0200</pubDate>
+      
+      <guid>/tags/material/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lambda</title>
+      <link>/tags/lambda/</link>
+      <pubDate>Fri, 03 Aug 2018 12:00:00 +0100</pubDate>
+      
+      <guid>/tags/lambda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>runnable</title>
+      <link>/tags/runnable/</link>
+      <pubDate>Fri, 03 Aug 2018 12:00:00 +0100</pubDate>
+      
+      <guid>/tags/runnable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>android</title>
+      <link>/tags/android/</link>
+      <pubDate>Sat, 18 Jun 2016 12:00:00 +0100</pubDate>
+      
+      <guid>/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>support-library</title>
+      <link>/tags/support-library/</link>
+      <pubDate>Sat, 18 Jun 2016 12:00:00 +0100</pubDate>
+      
+      <guid>/tags/support-library/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
