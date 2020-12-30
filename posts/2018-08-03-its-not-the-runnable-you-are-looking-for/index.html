@@ -1,254 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-    <title>It’s not the Runnable you’re looking for :: Blog</title>
-  
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.
-Let me describe the problem here. My colleague asked if I know how one could debounce LiveData emissions, similar to behaviour of debounce operator of RxJava, with a help of MediatorLiveData and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:" />
-<meta name="keywords" content="kotlin, " />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/" />
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/css/style.min.css">
-
-
-  
-  
-  <link rel="stylesheet" href="/css/color/green.min.css">
-
-
-
-
-
-
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144-precomposed.png">
-
-  <link rel="shortcut icon" href="/img/favicon/green.png">
-
-
-
-<meta name="twitter:card" content="summary" />
-
-  
-    <meta name="twitter:creator" content="LubosMudrak" />
-
-
-
-<meta property="og:locale" content="en" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="It’s not the Runnable you’re looking for :: Blog">
-<meta property="og:description" content="So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.
-Let me describe the problem here. My colleague asked if I know how one could debounce LiveData emissions, similar to behaviour of debounce operator of RxJava, with a help of MediatorLiveData and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:" />
-<meta property="og:url" content="/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/" />
-<meta property="og:site_name" content="It’s not the Runnable you’re looking for" />
-
-  <meta property="og:image" content="/img/kotlin-lighthouse.jpeg">
-
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-
-
-  <meta property="article:published_time" content="2018-08-03 12:00:00 &#43;0100 &#43;0100" />
-
-
-
-
-
-
-
-
-
-
-
-
-</head>
-<body class="green">
-
-
-<div class="container center headings--one-size">
-
-  <header class="header">
-  <div class="header__inner">
-    <div class="header__logo">
-      <a href="/">
-  <div class="logo">
-    Blog
-  </div>
-</a>
-
-    </div>
-    <div class="menu-trigger">menu</div>
-  </div>
-  
-</header>
-
-
-  <div class="content">
-    
-<div class="post">
-  <h1 class="post-title">
-    <a href="/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/">It’s not the Runnable you’re looking for</a></h1>
-  <div class="post-meta">
-    
-      <span class="post-date">
-        2018-08-03 
-      </span>
-    
-    
-    <span class="post-author">:: Lubos Mudrak</span>
-    
-  </div>
-
-  
-  <span class="post-tags">
-    
-    #<a href="/tags/kotlin/">kotlin</a>&nbsp;
-    
-    #<a href="/tags/runnable/">runnable</a>&nbsp;
-    
-    #<a href="/tags/lambda/">lambda</a>&nbsp;
-    
-  </span>
-  
-
-  
-    <img src="/img/kotlin-lighthouse.jpeg" class="post-cover" alt="It’s not the Runnable you’re looking for" />
-  
-
-  
-
-  <div class="post-content"><div>
-        <p>So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.</p>
-<p>Let me describe the problem here. My colleague asked if I know how one could debounce <em>LiveData</em> emissions, similar to behaviour of <a href="http://reactivex.io/documentation/operators/debounce.html">debounce operator of RxJava</a>, with a help of <em>MediatorLiveData</em> and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> runnable = {
+<!doctype html><html lang=en><head><title>It’s not the Runnable you’re looking for :: Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.
+Let me describe the problem here. My colleague asked if I know how one could debounce LiveData emissions, similar to behaviour of debounce operator of RxJava, with a help of MediatorLiveData and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:"><meta name=keywords content="kotlin,"><meta name=robots content="noodp"><link rel=canonical href=/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:creator content="LubosMudrak"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="It’s not the Runnable you’re looking for"><meta property="og:description" content="So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.
+Let me describe the problem here. My colleague asked if I know how one could debounce LiveData emissions, similar to behaviour of debounce operator of RxJava, with a help of MediatorLiveData and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:"><meta property="og:url" content="/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/"><meta property="og:site_name" content="Blog"><meta property="og:image" content="/img/kotlin-lighthouse.jpeg"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-08-03 12:00:00 +0100 +0100"></head><body class=green><div class="container center headings--one-size"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Blog</div></a></div></div></header><div class=content><div class=post><h1 class=post-title><a href=/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/>It’s not the Runnable you’re looking for</a></h1><div class=post-meta><span class=post-date>2018-08-03</span>
+<span class=post-author>:: Lubos Mudrak</span></div><span class=post-tags>#<a href=/tags/kotlin/>kotlin</a>&nbsp;
+#<a href=/tags/runnable/>runnable</a>&nbsp;
+#<a href=/tags/lambda/>lambda</a>&nbsp;</span>
+<img src=/img/kotlin-lighthouse.jpeg class=post-cover alt="It’s not the Runnable you’re looking for"><div class=post-content><div><p>So, I got burned by Kotlin recently. Don’t get me wrong here, I like it that I still find myself in situations where I think things should work, but they just don’t.</p><p>Let me describe the problem here. My colleague asked if I know how one could debounce <em>LiveData</em> emissions, similar to behaviour of <a href=http://reactivex.io/documentation/operators/debounce.html>debounce operator of RxJava</a>, with a help of <em>MediatorLiveData</em> and some simple code, that just always reschedules message send to UI thread, I tried to implement it like this:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>val</span> runnable = {
  mediatorLiveData.value = source.value
 }
 
-mediatorLiveData.addSource(source) { newElement -&gt; 
+mediatorLiveData.addSource(source) { newElement <span style=color:#f92672>-&gt;</span> 
  handler.removeCallbacks(runnable)
  handler.postDelayed(runnable, delay)
 }
 </code></pre></div><p>Seems good, code complies without any errors or warnings. But the result is nowhere near what one would expect, as the queued <em>Runnables</em> are not being dequeued and will always get executed, which is not in our desire, but rather have the <em>Runnable</em> execute only after give time if no new element was emitted by the source <em>LiveData</em>.
-At first glance the code seems correct so the obvious step should be to take a look at decompiled bytecode using awesome Intellij tooling (Tools -&gt; Kotlin -&gt; Show Kotlin Bytecode -&gt; Decompile):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DataKt</span><span style="color:#960050;background-color:#1e0010">$</span>debounce<span style="color:#960050;background-color:#1e0010">$$</span>inlined<span style="color:#960050;background-color:#1e0010">$</span>also<span style="color:#960050;background-color:#1e0010">$</span>lambda<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span> implements Runnable {
-   <span style="color:#75715e">// $FF: synthetic field
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Function0 function;
+At first glance the code seems correct so the obvious step should be to take a look at decompiled bytecode using awesome Intellij tooling (Tools -> Kotlin -> Show Kotlin Bytecode -> Decompile):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DataKt</span><span style=color:#960050;background-color:#1e0010>$</span>debounce<span style=color:#960050;background-color:#1e0010>$$</span>inlined<span style=color:#960050;background-color:#1e0010>$</span>also<span style=color:#960050;background-color:#1e0010>$</span>lambda<span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span><span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span> implements Runnable {
+   <span style=color:#75715e>// $FF: synthetic field
+</span><span style=color:#75715e></span>   <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Function0 function;
 
-   Livedata2Kt<span style="color:#960050;background-color:#1e0010">$</span>debounce<span style="color:#960050;background-color:#1e0010">$$</span>inlined<span style="color:#960050;background-color:#1e0010">$</span>also<span style="color:#960050;background-color:#1e0010">$</span>lambda<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>(Function0 var1) {
-      <span style="color:#66d9ef">this</span>.function = var1;
+   Livedata2Kt<span style=color:#960050;background-color:#1e0010>$</span>debounce<span style=color:#960050;background-color:#1e0010>$$</span>inlined<span style=color:#960050;background-color:#1e0010>$</span>also<span style=color:#960050;background-color:#1e0010>$</span>lambda<span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span><span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span>(Function0 var1) {
+      <span style=color:#66d9ef>this</span>.function = var1;
    }
 
-   <span style="color:#75715e">// $FF: synthetic method
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> void run() { ... }
+   <span style=color:#75715e>// $FF: synthetic method
+</span><span style=color:#75715e></span>   <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> void run() { <span style=color:#f92672>..</span>. }
 }
-<span style="color:#75715e">// $FF: synthetic field
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> Function0 <span style="color:#960050;background-color:#1e0010">$</span>runnable;
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> void onChanged(@Nullable Object it) {
-  Handler var10000 = <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>handler;
-  Object var10001 = <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>runnable;
+<span style=color:#75715e>// $FF: synthetic field
+</span><span style=color:#75715e></span><span style=color:#66d9ef>final</span> Function0 <span style=color:#960050;background-color:#1e0010>$</span>runnable;
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> void onChanged(<span style=color:#a6e22e>@Nullable</span> Object <span style=color:#66d9ef>it</span>) {
+  Handler var10000 = <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>handler;
+  Object var10001 = <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>runnable;
   Object var2;
-  <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>runnable != <span style="color:#66d9ef">null</span>) {
+  <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>runnable <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
     var2 = var10001;
-    var10001 = new DataKt<span style="color:#960050;background-color:#1e0010">$</span>debounce<span style="color:#960050;background-color:#1e0010">$$</span>inlined<span style="color:#960050;background-color:#1e0010">$</span>also<span style="color:#960050;background-color:#1e0010">$</span>lambda<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>((Function0)var2);
+    var10001 = new DataKt<span style=color:#960050;background-color:#1e0010>$</span>debounce<span style=color:#960050;background-color:#1e0010>$$</span>inlined<span style=color:#960050;background-color:#1e0010>$</span>also<span style=color:#960050;background-color:#1e0010>$</span>lambda<span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span><span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span>((Function0)var2);
   }
 
   var10000.removeCallbacks((Runnable)var10001);
-  var10000 = <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>handler;
-  var10001 = <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>runnable;
-  <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>runnable != <span style="color:#66d9ef">null</span>) {
+  var10000 = <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>handler;
+  var10001 = <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>runnable;
+  <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>runnable <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
     var2 = var10001;
-    var10001 = new DataKt<span style="color:#960050;background-color:#1e0010">$</span>debounce<span style="color:#960050;background-color:#1e0010">$$</span>inlined<span style="color:#960050;background-color:#1e0010">$</span>also<span style="color:#960050;background-color:#1e0010">$</span>lambda<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">2</span>((Function0)var2);
+    var10001 = new DataKt<span style=color:#960050;background-color:#1e0010>$</span>debounce<span style=color:#960050;background-color:#1e0010>$$</span>inlined<span style=color:#960050;background-color:#1e0010>$</span>also<span style=color:#960050;background-color:#1e0010>$</span>lambda<span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span><span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>2</span>((Function0)var2);
   }
 
-  var10000.postDelayed((Runnable)var10001, <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>delay<span style="color:#960050;background-color:#1e0010">$</span>inlined);
+  var10000.postDelayed((Runnable)var10001, <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>delay<span style=color:#960050;background-color:#1e0010>$</span>inlined);
 }
-</code></pre></div><p>The shortened example shows what is really happening. The important part is that since both <code>removeCallback</code> and <code>postDelayed</code> methods are expecting first parameter to be of type <em>Runnable</em> Kotlin compiler wraps the lambda function into class that implements the <em>Runnable</em> contract and always creates a new instance of the wrapper class, which results in no <em>Runnable</em> being dequeued.</p>
-<p>The solution to this problem is simple. We just have to be explicit towards compiler about what type of callback are we going to be passing, so a simple change like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> runnable = Runnable {
+</code></pre></div><p>The shortened example shows what is really happening. The important part is that since both <code>removeCallback</code> and <code>postDelayed</code> methods are expecting first parameter to be of type <em>Runnable</em> Kotlin compiler wraps the lambda function into class that implements the <em>Runnable</em> contract and always creates a new instance of the wrapper class, which results in no <em>Runnable</em> being dequeued.</p><p>The solution to this problem is simple. We just have to be explicit towards compiler about what type of callback are we going to be passing, so a simple change like:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>val</span> runnable = Runnable {
   mediatorLiveData.value = source.value
 }
-</code></pre></div><p>which will result into correctly generated code:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">// $FF: synthetic field
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> Runnable <span style="color:#960050;background-color:#1e0010">$</span>runnable;
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> void onChanged(@Nullable Object it) {
-   <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>handler.removeCallbacks(<span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>runnable);
-   <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>handler.postDelayed(<span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>runnable, <span style="color:#66d9ef">this</span>.<span style="color:#960050;background-color:#1e0010">$</span>delay<span style="color:#960050;background-color:#1e0010">$</span>inlined);
+</code></pre></div><p>which will result into correctly generated code:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#75715e>// $FF: synthetic field
+</span><span style=color:#75715e></span><span style=color:#66d9ef>final</span> Runnable <span style=color:#960050;background-color:#1e0010>$</span>runnable;
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> void onChanged(<span style=color:#a6e22e>@Nullable</span> Object <span style=color:#66d9ef>it</span>) {
+   <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>handler.removeCallbacks(<span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>runnable);
+   <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>handler.postDelayed(<span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>runnable, <span style=color:#66d9ef>this</span>.<span style=color:#960050;background-color:#1e0010>$</span>delay<span style=color:#960050;background-color:#1e0010>$</span>inlined);
 }
-</code></pre></div><p>which results in expected code.</p>
-<p><strong>TL;DR</strong> of the story is to be explicit about types of anonymous callbacks when using Kotlin with Java interop.</p>
-
-      </div></div>
-
-  
-  
-<div class="pagination">
-    <div class="pagination__title">
-        <span class="pagination__title-h">Read other posts</span>
-        <hr />
-    </div>
-    <div class="pagination__buttons">
-        
-        <span class="button previous">
-            <a href="/posts/place-for-bottom-bar/">
-                <span class="button__icon">←</span>
-                <span class="button__text">A place for BottomAppBar</span>
-            </a>
-        </span>
-        
-        
-        <span class="button next">
-            <a href="/posts/2016-06-18-asynchronous-layout-inflation/">
-                <span class="button__text">Asynchronous layout inflation</span>
-                <span class="button__icon">→</span>
-            </a>
-        </span>
-        
-    </div>
-</div>
-
-  
-
-  
-
-</div>
-
-  </div>
-
-  
-    <footer class="footer">
-  <div class="footer__inner">
-    
-      <div class="copyright">
-        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
-      </div>
-  </div>
-</footer>
-
-
-
-
-
-
-<script src="/js/menu.js"></script>
-<script src="/js/prism.js"></script>
-
-
-
-
-
-  
-</div>
-
-</body>
-</html>
+</code></pre></div><p>which results in expected code.</p><p><strong>TL;DR</strong> of the story is to be explicit about types of anonymous callbacks when using Kotlin with Java interop.</p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/place-for-bottom-bar/><span class=button__icon>←</span>
+<span class=button__text>A place for BottomAppBar</span></a></span>
+<span class="button next"><a href=/posts/2016-06-18-asynchronous-layout-inflation/><span class=button__text>Asynchronous layout inflation</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2020 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script><script src=/assets/prism.js></script></div></body></html>

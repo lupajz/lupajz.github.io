@@ -1,25 +1,2 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>code generation on Blog</title>
-    <link>/tags/code-generation/</link>
-    <description>Recent content in code generation on Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 19 Jan 2020 16:50:41 +0200</lastBuildDate>
-    
-	<atom:link href="/tags/code-generation/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Testing Generated Kotlin Code</title>
-      <link>/posts/testing-generated-kotlin-code/</link>
-      <pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate>
-      
-      <guid>/posts/testing-generated-kotlin-code/</guid>
-      <description>I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
- To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>code generation on Blog</title><link>/tags/code-generation/</link><description>Recent content in code generation on Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 19 Jan 2020 16:50:41 +0200</lastBuildDate><atom:link href="/tags/code-generation/index.xml" rel="self" type="application/rss+xml"/><item><title>Testing Generated Kotlin Code</title><link>/posts/testing-generated-kotlin-code/</link><pubDate>Sun, 19 Jan 2020 16:50:41 +0200</pubDate><guid>/posts/testing-generated-kotlin-code/</guid><description>I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
+To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code.</description></item></channel></rss>

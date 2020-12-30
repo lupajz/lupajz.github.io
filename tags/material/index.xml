@@ -1,25 +1,2 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>material on Blog</title>
-    <link>/tags/material/</link>
-    <description>Recent content in material on Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 15 Mar 2019 16:50:41 +0200</lastBuildDate>
-    
-	<atom:link href="/tags/material/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>A place for BottomAppBar</title>
-      <link>/posts/place-for-bottom-bar/</link>
-      <pubDate>Fri, 15 Mar 2019 16:50:41 +0200</pubDate>
-      
-      <guid>/posts/place-for-bottom-bar/</guid>
-      <description>Last week as Google announced release of Android P preview they also release first alpha version of new support library that includes, amongst many interesting changes, new additions to design support library. From now on the library will include new MaterialButton, MaterialCardView, layout for Chips and BottomAppBar, also I hope we’ll get BackLayerLayout in future releases.
-BottomAppBar, being an extensions of Toolbar, feels like a compromise to provide user with some actions comfortably without the need to reach for them with thumb in the Toolbar on top on devices with bigger screen.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>material on Blog</title><link>/tags/material/</link><description>Recent content in material on Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 15 Mar 2019 16:50:41 +0200</lastBuildDate><atom:link href="/tags/material/index.xml" rel="self" type="application/rss+xml"/><item><title>A place for BottomAppBar</title><link>/posts/place-for-bottom-bar/</link><pubDate>Fri, 15 Mar 2019 16:50:41 +0200</pubDate><guid>/posts/place-for-bottom-bar/</guid><description>Last week as Google announced release of Android P preview they also release first alpha version of new support library that includes, amongst many interesting changes, new additions to design support library. From now on the library will include new MaterialButton, MaterialCardView, layout for Chips and BottomAppBar, also I hope we’ll get BackLayerLayout in future releases.
+BottomAppBar, being an extensions of Toolbar, feels like a compromise to provide user with some actions comfortably without the need to reach for them with thumb in the Toolbar on top on devices with bigger screen.</description></item></channel></rss>

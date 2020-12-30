@@ -1,274 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-    <title>Asynchronous layout inflation :: Blog</title>
-  
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="With recent release of Android Support Library, revision 24 Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.
-Enter AsyncLayoutInflater You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed." />
-<meta name="keywords" content=", " />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="/posts/2016-06-18-asynchronous-layout-inflation/" />
+<!doctype html><html lang=en><head><title>Asynchronous layout inflation :: Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="With recent release of Android Support Library, revision 24 Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.
+Enter AsyncLayoutInflater You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed."><meta name=keywords content=","><meta name=robots content="noodp"><link rel=canonical href=/posts/2016-06-18-asynchronous-layout-inflation/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:creator content="LubosMudrak"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Asynchronous layout inflation"><meta property="og:description" content="With recent release of Android Support Library, revision 24 Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.
+Enter AsyncLayoutInflater You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed."><meta property="og:url" content="/posts/2016-06-18-asynchronous-layout-inflation/"><meta property="og:site_name" content="Blog"><meta property="og:image" content="/"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2016-06-18 12:00:00 +0100 +0100"></head><body class=green><div class="container center headings--one-size"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Blog</div></a></div></div></header><div class=content><div class=post><h1 class=post-title><a href=/posts/2016-06-18-asynchronous-layout-inflation/>Asynchronous layout inflation</a></h1><div class=post-meta><span class=post-date>2016-06-18</span></div><span class=post-tags>#<a href=/tags/android/>android</a>&nbsp;
+#<a href=/tags/support-library/>support-library</a>&nbsp;</span><div class=post-content><div><p>With recent release of <a href=https://developer.android.com/topic/libraries/support-library/revisions.html>Android Support Library, revision 24</a> Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.</p><h2 id=enter-asynclayoutinflater>Enter AsyncLayoutInflater<a href=#enter-asynclayoutinflater class=hanchor arialabel=Anchor>&#8983;</a></h2><p>You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed.</p><p>To use AsyncLayoutInflater you just have to create instance of it on your applications <strong>UI thread</strong>.</p><p>Consider this part of your Activity code (I’ll be using Kotlin syntax here):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>val</span> inflater = AsyncLayoutInflater(<span style=color:#66d9ef>this</span>)
+</code></pre></div><p>And now with this instance you can inflate your layout file</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>inflater.inflate(resId: Int, parent: ViewGroup) 
+</code></pre></div><p>As you can see the inflate function takes 3 parameter. First is your layout resource, second is optional view intended to be a parent of inflated hierarchy and third is a OnInflateFinishedListener, wich is a callback, that will be invoked once your layout has been inflated (in sample replaced by lambda function).</p><p>In comparsion the basic inflate function of LayoutInflater, that you would normaly use, takes boolean as a third parameter, that says whether the inflated hierarchy should be attached to the root parameter. As in our async version of inflate function there isn’t such a parameter you will most likely want to call in this way:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>inflater.inflate(resId: Int, parent: ViewGroup) 
+    { view, resid, parent <span style=color:#f92672>-&gt;</span> parent.addView(view) }
+</code></pre></div><h2 id=drawbacks-of-using-asynclayoutinflater>Drawbacks of using AsyncLayoutInflater<a href=#drawbacks-of-using-asynclayoutinflater class=hanchor arialabel=Anchor>&#8983;</a></h2><p>There are of course some drawbacks here:</p><ul><li>parents function <em>generateLayoutParams()</em> has to be thread-safe</li><li>all views being constructed must not create any Handlers or call Looper.myLooper() function</li><li>no support for setting LayoutInflater.Factory nor LayoutInflater.Factory2</li><li>no support for inflating layouts containing fragments</li><li>If layout that we are trying to inflate in asynchronous way can not be constructed in this way, the inflation process will automaticaly fall back to inflation on UI thread.</li></ul><h3 id=small-sample-in-kotlin-with-use-of-kotlin-android-extensions>Small sample in Kotlin with use of Kotlin Android Extensions<a href=#small-sample-in-kotlin-with-use-of-kotlin-android-extensions class=hanchor arialabel=Anchor>&#8983;</a></h3><p>MainActivity.kt</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MainActivity</span> : AppCompatActivity() {
 
-
-
-
-
-
-
-<link rel="stylesheet" href="/css/style.min.css">
-
-
-  
-  
-  <link rel="stylesheet" href="/css/color/green.min.css">
-
-
-
-
-
-
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144-precomposed.png">
-
-  <link rel="shortcut icon" href="/img/favicon/green.png">
-
-
-
-<meta name="twitter:card" content="summary" />
-
-  
-    <meta name="twitter:creator" content="" />
-
-
-
-<meta property="og:locale" content="en" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Asynchronous layout inflation :: Blog">
-<meta property="og:description" content="With recent release of Android Support Library, revision 24 Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.
-Enter AsyncLayoutInflater You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed." />
-<meta property="og:url" content="/posts/2016-06-18-asynchronous-layout-inflation/" />
-<meta property="og:site_name" content="Asynchronous layout inflation" />
-
-  <meta property="og:image" content="/">
-
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-
-
-  <meta property="article:published_time" content="2016-06-18 12:00:00 &#43;0100 &#43;0100" />
-
-
-
-
-
-
-
-
-
-
-
-
-</head>
-<body class="green">
-
-
-<div class="container center headings--one-size">
-
-  <header class="header">
-  <div class="header__inner">
-    <div class="header__logo">
-      <a href="/">
-  <div class="logo">
-    Blog
-  </div>
-</a>
-
-    </div>
-    <div class="menu-trigger">menu</div>
-  </div>
-  
-</header>
-
-
-  <div class="content">
-    
-<div class="post">
-  <h1 class="post-title">
-    <a href="/posts/2016-06-18-asynchronous-layout-inflation/">Asynchronous layout inflation</a></h1>
-  <div class="post-meta">
-    
-      <span class="post-date">
-        2016-06-18 
-      </span>
-    
-    
-  </div>
-
-  
-  <span class="post-tags">
-    
-    #<a href="/tags/android/">android</a>&nbsp;
-    
-    #<a href="/tags/support-library/">support-library</a>&nbsp;
-    
-  </span>
-  
-
-  
-
-  
-
-  <div class="post-content"><div>
-        <p>With recent release of <a href="https://developer.android.com/topic/libraries/support-library/revisions.html">Android Support Library, revision 24</a> Google developers baked into v4 library a new helper class for asynchronous inflation of layouts.</p>
-<h2 id="enter-asynclayoutinflater">Enter AsyncLayoutInflater<a href="#enter-asynclayoutinflater" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p>You will find use for AsyncLayoutInflater in cases when you want to inflate parts of your applications UI lazily or as an response to users interactions. This helper class will allow your UI thread to continue being responsive while heavy inflation is being performed.</p>
-<p>To use AsyncLayoutInflater you just have to create instance of it on your applications <strong>UI thread</strong>.</p>
-<p>Consider this part of your Activity code (I’ll be using Kotlin syntax here):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> inflater = AsyncLayoutInflater(<span style="color:#66d9ef">this</span>)
-</code></pre></div><p>And now with this instance you can inflate your layout file</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">inflater.inflate(resId: Int, parent: ViewGroup) 
-</code></pre></div><p>As you can see the inflate function takes 3 parameter. First is your layout resource, second is optional view intended to be a parent of inflated hierarchy and third is a OnInflateFinishedListener, wich is a callback, that will be invoked once your layout has been inflated (in sample replaced by lambda function).</p>
-<p>In comparsion the basic inflate function of LayoutInflater, that you would normaly use, takes boolean as a third parameter, that says whether the inflated hierarchy should be attached to the root parameter. As in our async version of inflate function there isn’t such a parameter you will most likely want to call in this way:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">inflater.inflate(resId: Int, parent: ViewGroup) 
-    { view, resid, parent -&gt; parent.addView(view) }
-</code></pre></div><h2 id="drawbacks-of-using-asynclayoutinflater">Drawbacks of using AsyncLayoutInflater<a href="#drawbacks-of-using-asynclayoutinflater" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p>There are of course some drawbacks here:</p>
-<ul>
-<li>parents function <em>generateLayoutParams()</em> has to be thread-safe</li>
-<li>all views being constructed must not create any Handlers or call Looper.myLooper() function</li>
-<li>no support for setting LayoutInflater.Factory nor LayoutInflater.Factory2</li>
-<li>no support for inflating layouts containing fragments</li>
-<li>If layout that we are trying to inflate in asynchronous way can not be constructed in this way, the inflation process will automaticaly fall back to inflation on UI thread.</li>
-</ul>
-<h3 id="small-sample-in-kotlin-with-use-of-kotlin-android-extensions">Small sample in Kotlin with use of Kotlin Android Extensions<a href="#small-sample-in-kotlin-with-use-of-kotlin-android-extensions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<p>MainActivity.kt</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
-
-    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
-        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+    <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>fun</span> <span style=color:#a6e22e>onCreate</span>(savedInstanceState: Bundle?) {
+        <span style=color:#66d9ef>super</span>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         loadFirst.setOnClickListener { 
            loadAsync(R.layout.async) { 
-             second.text = <span style="color:#e6db74">&#34;I am second TextView&#34;</span> 
+             second.text = <span style=color:#e6db74>&#34;I am second TextView&#34;</span> 
            } 
         }
     }
 }
 
-<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">MainActivity</span>.loadAsync(@LayoutRes res: Int, 
-                           action: View.() -&gt; Unit) =
-    AsyncLayoutInflater(<span style="color:#66d9ef">this</span>).inflate(res, frame) 
-    { view, resid, parent -&gt;
+<span style=color:#66d9ef>fun</span> <span style=color:#a6e22e>MainActivity</span>.loadAsync(<span style=color:#a6e22e>@LayoutRes</span> res: Int, 
+                           action: View.() <span style=color:#f92672>-&gt;</span> Unit) =
+    AsyncLayoutInflater(<span style=color:#66d9ef>this</span>).inflate(res, frame) 
+    { view, resid, parent <span style=color:#f92672>-&gt;</span>
         with(parent) {
             addView(view)
             action(view)
         }
     }
-</code></pre></div><p>activity_main.xml</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout
-    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:id=&quot;@+id/frame&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    android:padding=&quot;@dimen/activity_vertical_margin&quot;
-    android:orientation=&quot;vertical&quot;
-    tools:context=&quot;com.cartoon.player.MainActivity&quot;&gt;
+</code></pre></div><p>activity_main.xml</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style=color:#f92672>&lt;LinearLayout</span>
+    <span style=color:#a6e22e>xmlns:android=</span><span style=color:#e6db74>&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style=color:#a6e22e>xmlns:tools=</span><span style=color:#e6db74>&#34;http://schemas.android.com/tools&#34;</span>
+    <span style=color:#a6e22e>android:id=</span><span style=color:#e6db74>&#34;@+id/frame&#34;</span>
+    <span style=color:#a6e22e>android:layout_width=</span><span style=color:#e6db74>&#34;match_parent&#34;</span>
+    <span style=color:#a6e22e>android:layout_height=</span><span style=color:#e6db74>&#34;match_parent&#34;</span>
+    <span style=color:#a6e22e>android:padding=</span><span style=color:#e6db74>&#34;@dimen/activity_vertical_margin&#34;</span>
+    <span style=color:#a6e22e>android:orientation=</span><span style=color:#e6db74>&#34;vertical&#34;</span>
+    <span style=color:#a6e22e>tools:context=</span><span style=color:#e6db74>&#34;com.cartoon.player.MainActivity&#34;</span><span style=color:#f92672>&gt;</span>
 
-    &lt;TextView
-        android:id=&quot;@+id/loadFirst&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;48dp&quot;
-        android:gravity=&quot;center&quot;
-        android:layout_marginBottom=&quot;16dp&quot;
-        android:text=&quot;Load f async&quot;/&gt;
+    <span style=color:#f92672>&lt;TextView</span>
+        <span style=color:#a6e22e>android:id=</span><span style=color:#e6db74>&#34;@+id/loadFirst&#34;</span>
+        <span style=color:#a6e22e>android:layout_width=</span><span style=color:#e6db74>&#34;match_parent&#34;</span>
+        <span style=color:#a6e22e>android:layout_height=</span><span style=color:#e6db74>&#34;48dp&#34;</span>
+        <span style=color:#a6e22e>android:gravity=</span><span style=color:#e6db74>&#34;center&#34;</span>
+        <span style=color:#a6e22e>android:layout_marginBottom=</span><span style=color:#e6db74>&#34;16dp&#34;</span>
+        <span style=color:#a6e22e>android:text=</span><span style=color:#e6db74>&#34;Load f async&#34;</span><span style=color:#f92672>/&gt;</span>
 
-&lt;/LinearLayout&gt;
-</code></pre><p>async.xml</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout
-    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:orientation=&quot;vertical&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;wrap_content&quot;&gt;
+<span style=color:#f92672>&lt;/LinearLayout&gt;</span>
+</code></pre></div><p>async.xml</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style=color:#f92672>&lt;LinearLayout</span>
+    <span style=color:#a6e22e>xmlns:android=</span><span style=color:#e6db74>&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style=color:#a6e22e>android:orientation=</span><span style=color:#e6db74>&#34;vertical&#34;</span>
+    <span style=color:#a6e22e>android:layout_width=</span><span style=color:#e6db74>&#34;match_parent&#34;</span>
+    <span style=color:#a6e22e>android:layout_height=</span><span style=color:#e6db74>&#34;wrap_content&#34;</span><span style=color:#f92672>&gt;</span>
 
-    &lt;TextView
-        android:id=&quot;@+id/first&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:layout_marginBottom=&quot;16dp&quot;
-        android:text=&quot;1&quot;/&gt;
+    <span style=color:#f92672>&lt;TextView</span>
+        <span style=color:#a6e22e>android:id=</span><span style=color:#e6db74>&#34;@+id/first&#34;</span>
+        <span style=color:#a6e22e>android:layout_width=</span><span style=color:#e6db74>&#34;match_parent&#34;</span>
+        <span style=color:#a6e22e>android:layout_height=</span><span style=color:#e6db74>&#34;wrap_content&#34;</span>
+        <span style=color:#a6e22e>android:layout_marginBottom=</span><span style=color:#e6db74>&#34;16dp&#34;</span>
+        <span style=color:#a6e22e>android:text=</span><span style=color:#e6db74>&#34;1&#34;</span><span style=color:#f92672>/&gt;</span>
 
-    &lt;TextView
-        android:id=&quot;@+id/second&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:layout_marginBottom=&quot;16dp&quot;
-        android:text=&quot;2&quot;/&gt;
+    <span style=color:#f92672>&lt;TextView</span>
+        <span style=color:#a6e22e>android:id=</span><span style=color:#e6db74>&#34;@+id/second&#34;</span>
+        <span style=color:#a6e22e>android:layout_width=</span><span style=color:#e6db74>&#34;match_parent&#34;</span>
+        <span style=color:#a6e22e>android:layout_height=</span><span style=color:#e6db74>&#34;wrap_content&#34;</span>
+        <span style=color:#a6e22e>android:layout_marginBottom=</span><span style=color:#e6db74>&#34;16dp&#34;</span>
+        <span style=color:#a6e22e>android:text=</span><span style=color:#e6db74>&#34;2&#34;</span><span style=color:#f92672>/&gt;</span>
 
-&lt;/LinearLayout&gt;
-</code></pre><p><em>Source: mostly source code for AsyncLayoutInflater class</em></p>
-
-      </div></div>
-
-  
-  
-<div class="pagination">
-    <div class="pagination__title">
-        <span class="pagination__title-h">Read other posts</span>
-        <hr />
-    </div>
-    <div class="pagination__buttons">
-        
-        <span class="button previous">
-            <a href="/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/">
-                <span class="button__icon">←</span>
-                <span class="button__text">It’s not the Runnable you’re looking for</span>
-            </a>
-        </span>
-        
-        
-    </div>
-</div>
-
-  
-
-  
-
-</div>
-
-  </div>
-
-  
-    <footer class="footer">
-  <div class="footer__inner">
-    
-      <div class="copyright">
-        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
-      </div>
-  </div>
-</footer>
-
-
-
-
-
-
-<script src="/js/menu.js"></script>
-<script src="/js/prism.js"></script>
-
-
-
-
-
-  
-</div>
-
-</body>
-</html>
+<span style=color:#f92672>&lt;/LinearLayout&gt;</span>
+</code></pre></div><p><em>Source: mostly source code for AsyncLayoutInflater class</em></p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/2018-08-03-its-not-the-runnable-you-are-looking-for/><span class=button__icon>←</span>
+<span class=button__text>It’s not the Runnable you’re looking for</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2020 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script><script src=/assets/prism.js></script></div></body></html>

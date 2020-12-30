@@ -1,257 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-    <title>Testing Generated Kotlin Code :: Blog</title>
-  
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
- To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code." />
-<meta name="keywords" content="kotlin, " />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="/posts/testing-generated-kotlin-code/" />
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/css/style.min.css">
-
-
-  
-  
-  <link rel="stylesheet" href="/css/color/green.min.css">
-
-
-
-
-
-
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144-precomposed.png">
-
-  <link rel="shortcut icon" href="/img/favicon/green.png">
-
-
-
-<meta name="twitter:card" content="summary" />
-
-  
-    <meta name="twitter:creator" content="LubosMudrak" />
-
-
-
-<meta property="og:locale" content="en" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Testing Generated Kotlin Code :: Blog">
-<meta property="og:description" content="I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
- To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code." />
-<meta property="og:url" content="/posts/testing-generated-kotlin-code/" />
-<meta property="og:site_name" content="Testing Generated Kotlin Code" />
-
-  <meta property="og:image" content="/img/kotlin-lighthouse.jpeg">
-
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-
-
-  <meta property="article:published_time" content="2020-01-19 16:50:41 &#43;0200 &#43;0200" />
-
-
-
-
-
-
-
-
-
-
-
-
-</head>
-<body class="green">
-
-
-<div class="container center headings--one-size">
-
-  <header class="header">
-  <div class="header__inner">
-    <div class="header__logo">
-      <a href="/">
-  <div class="logo">
-    Blog
-  </div>
-</a>
-
-    </div>
-    <div class="menu-trigger">menu</div>
-  </div>
-  
-</header>
-
-
-  <div class="content">
-    
-<div class="post">
-  <h1 class="post-title">
-    <a href="/posts/testing-generated-kotlin-code/">Testing Generated Kotlin Code</a></h1>
-  <div class="post-meta">
-    
-      <span class="post-date">
-        2020-01-19 
-      </span>
-    
-    
-    <span class="post-author">:: Lubos Mudrak</span>
-    
-  </div>
-
-  
-  <span class="post-tags">
-    
-    #<a href="/tags/kotlin/">kotlin</a>&nbsp;
-    
-    #<a href="/tags/testing/">testing</a>&nbsp;
-    
-    #<a href="/tags/code-generation/">code generation</a>&nbsp;
-    
-    #<a href="/tags/kotlin-compile-testing/">kotlin-compile-testing</a>&nbsp;
-    
-  </span>
-  
-
-  
-    <img src="/img/kotlin-lighthouse.jpeg" class="post-cover" alt="Testing Generated Kotlin Code" />
-  
-
-  
-
-  <div class="post-content"><div>
-        <p>I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.</p>
-<hr>
-<p>To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code. This kinda worked for some time, but this didn’t help with catching unwanted behavior. And what we do if we want to have all edge cases under control ? Yes, we write tests!</p>
-<p>Writing tests for generated code is something I’ve never done, so I was really surprised that I wasn’t able to somehow easily attach generated code for source Set and just reference that in my junit test cases. Fortunately one of my colleagues referenced me a library that would help with this.</p>
-<a href="https://github.com/tschuchortdev/kotlin-compile-testing">tschuchortdev/kotlin-compile-testing</a>
-<h2 id="enter-kotlin-compile-testing">Enter Kotlin Compile Testing<a href="#enter-kotlin-compile-testing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p>Kotlin Compile Testing help writing unit tests for you annotation processor and can accept both Java and Kotlin source code, if you would like to test for that.</p>
-<p>Now for a simple example. Let’s assume that we have an @IntSummable annotation that would generate an extensions function for annotated data class, which would sum all the integers parameters of primary constructor.</p>
-<p>A test case to verify content of a generated file of a Foo class would look like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">  @Test
-  <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">`validate file content for FooSummable`</span>() {
-    <span style="color:#66d9ef">val</span> kotlinSource = SourceFile.kotlin(
-      <span style="color:#e6db74">&#34;file2.kt&#34;</span>, <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">      package com.tests.summable
-</span><span style="color:#e6db74">      
-</span><span style="color:#e6db74">      import com.codegen.sample.IntSummable
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">          @IntSummable
-</span><span style="color:#e6db74">          data class FooAlsoSummable(
-</span><span style="color:#e6db74">            val bar: Int = 123,
-</span><span style="color:#e6db74">            val baz: Int = 123
-</span><span style="color:#e6db74">          )
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+<!doctype html><html lang=en><head><title>Testing Generated Kotlin Code :: Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
+ To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code."><meta name=keywords content="kotlin,"><meta name=robots content="noodp"><link rel=canonical href=/posts/testing-generated-kotlin-code/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:creator content="LubosMudrak"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Testing Generated Kotlin Code"><meta property="og:description" content="I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.
+ To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code."><meta property="og:url" content="/posts/testing-generated-kotlin-code/"><meta property="og:site_name" content="Blog"><meta property="og:image" content="/img/kotlin-lighthouse.jpeg"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2020-01-19 16:50:41 +0200 +0200"></head><body class=green><div class="container center headings--one-size"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Blog</div></a></div></div></header><div class=content><div class=post><h1 class=post-title><a href=/posts/testing-generated-kotlin-code/>Testing Generated Kotlin Code</a></h1><div class=post-meta><span class=post-date>2020-01-19</span>
+<span class=post-author>:: Lubos Mudrak</span></div><span class=post-tags>#<a href=/tags/kotlin/>kotlin</a>&nbsp;
+#<a href=/tags/testing/>testing</a>&nbsp;
+#<a href=/tags/code-generation/>code generation</a>&nbsp;
+#<a href=/tags/kotlin-compile-testing/>kotlin-compile-testing</a>&nbsp;</span>
+<img src=/img/kotlin-lighthouse.jpeg class=post-cover alt="Testing Generated Kotlin Code"><div class=post-content><div><p>I’ve always liked creating simple annotation processors. There is something satysfing to see lot’s of code being generated for you while all it takes is just providing correct annotation to correct element and Et voila! That is of course if you trust compiler to generate correct code.</p><hr><p>To verify generated code of my annotation processors I’ve usually created a module that would provide sample on how to correctly use the processor and how to use the generated code. This kinda worked for some time, but this didn’t help with catching unwanted behavior. And what we do if we want to have all edge cases under control ? Yes, we write tests!</p><p>Writing tests for generated code is something I’ve never done, so I was really surprised that I wasn’t able to somehow easily attach generated code for source Set and just reference that in my junit test cases. Fortunately one of my colleagues referenced me a library that would help with this.</p><a href=https://github.com/tschuchortdev/kotlin-compile-testing>tschuchortdev/kotlin-compile-testing</a><h2 id=enter-kotlin-compile-testing>Enter Kotlin Compile Testing<a href=#enter-kotlin-compile-testing class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Kotlin Compile Testing help writing unit tests for you annotation processor and can accept both Java and Kotlin source code, if you would like to test for that.</p><p>Now for a simple example. Let’s assume that we have an @IntSummable annotation that would generate an extensions function for annotated data class, which would sum all the integers parameters of primary constructor.</p><p>A test case to verify content of a generated file of a Foo class would look like this:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>  <span style=color:#a6e22e>@Test</span>
+  <span style=color:#66d9ef>fun</span> <span style=color:#a6e22e>`validate file content for FooSummable`</span>() {
+    <span style=color:#66d9ef>val</span> kotlinSource = SourceFile.kotlin(
+      <span style=color:#e6db74>&#34;file2.kt&#34;</span>, <span style=color:#e6db74>&#34;&#34;&#34;
+</span><span style=color:#e6db74>      package com.tests.summable
+</span><span style=color:#e6db74>      
+</span><span style=color:#e6db74>      import com.codegen.sample.IntSummable
+</span><span style=color:#e6db74>
+</span><span style=color:#e6db74>          @IntSummable
+</span><span style=color:#e6db74>          data class FooAlsoSummable(
+</span><span style=color:#e6db74>            val bar: Int = 123,
+</span><span style=color:#e6db74>            val baz: Int = 123
+</span><span style=color:#e6db74>          )
+</span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
     )
 
-    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">compileSource</span>(source: SourceFile): KotlinCompilation.Result = 
+    <span style=color:#66d9ef>fun</span> <span style=color:#a6e22e>compileSource</span>(source: SourceFile): KotlinCompilation.Result = 
       KotlinCompilation().apply {
         sources = listOf(source)
         annotationProcessors = listOf(SummableProcessor())
         workingDir = temporaryFolder.root
-        inheritClassPath = <span style="color:#66d9ef">true</span>
-        verbose = <span style="color:#66d9ef">false</span>
+        inheritClassPath = <span style=color:#66d9ef>true</span>
+        verbose = <span style=color:#66d9ef>false</span>
       }.compile()
 
-    <span style="color:#66d9ef">val</span> compilationResult = compileSource(kotlinSource)
+    <span style=color:#66d9ef>val</span> compilationResult = compileSource(kotlinSource)
 
     Assertions.assertThat(compilationResult.exitCode)
       .isEqualTo(KotlinCompilation.ExitCode.OK)
     
     Assertions.assertThat(
-      compilationResult.generatedFiles.find { it.name == <span style="color:#e6db74">&#34;FooAlsoSummable.kt&#34;</span> }
+      compilationResult.generatedFiles.find { <span style=color:#66d9ef>it</span>.name <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;FooAlsoSummable.kt&#34;</span> }
     ).hasContent(
-      <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">         |package com.tests.summable
-</span><span style="color:#e6db74">         |
-</span><span style="color:#e6db74">         |import kotlin.Int
-</span><span style="color:#e6db74">         |
-</span><span style="color:#e6db74">         |fun FooAlsoSummable.sum(): Int {
-</span><span style="color:#e6db74">         |  val sum = bar + baz
-</span><span style="color:#e6db74">         |  return sum
-</span><span style="color:#e6db74">         |}
-</span><span style="color:#e6db74">      &#34;&#34;&#34;</span>.trimMargin()
+      <span style=color:#e6db74>&#34;&#34;&#34;
+</span><span style=color:#e6db74>         |package com.tests.summable
+</span><span style=color:#e6db74>         |
+</span><span style=color:#e6db74>         |import kotlin.Int
+</span><span style=color:#e6db74>         |
+</span><span style=color:#e6db74>         |fun FooAlsoSummable.sum(): Int {
+</span><span style=color:#e6db74>         |  val sum = bar + baz
+</span><span style=color:#e6db74>         |  return sum
+</span><span style=color:#e6db74>         |}
+</span><span style=color:#e6db74>      &#34;&#34;&#34;</span>.trimMargin()
     )
   }
 
-</code></pre></div><p>Kotlin Compile Testing takes care of:</p>
-<ul>
-<li>generating stubs</li>
-<li>running apt</li>
-<li>running kotlinc with generated code from previous steps</li>
-<li>running javac with java sources and compiled Kotlin classes</li>
-</ul>
-<p>You can of course access all of this files as properties of the KotlinCompilation.Result object that is returned as a result of compile() function.</p>
-<p>There is also a ClassLoader instance provided as a part of KotlinCompilation.Result that points to generated source, but I was somehow unable to properly load my class and validate presence of my extension function at runtime (I’ll leave this for a future post).</p>
-<p>I’ve also create a small sample module which also uses KotlinPoet for it’s fluent API:</p>
-<a href="https://github.com/lupajz/compile-testing-sample">lupajz/compile-testing-sample</a>
-
-      </div></div>
-
-  
-  
-<div class="pagination">
-    <div class="pagination__title">
-        <span class="pagination__title-h">Read other posts</span>
-        <hr />
-    </div>
-    <div class="pagination__buttons">
-        
-        
-        <span class="button next">
-            <a href="/posts/place-for-bottom-bar/">
-                <span class="button__text">A place for BottomAppBar</span>
-                <span class="button__icon">→</span>
-            </a>
-        </span>
-        
-    </div>
-</div>
-
-  
-
-  
-
-</div>
-
-  </div>
-
-  
-    <footer class="footer">
-  <div class="footer__inner">
-    
-      <div class="copyright">
-        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
-      </div>
-  </div>
-</footer>
-
-
-
-
-
-
-<script src="/js/menu.js"></script>
-<script src="/js/prism.js"></script>
-
-
-
-
-
-  
-</div>
-
-</body>
-</html>
+</code></pre></div><p>Kotlin Compile Testing takes care of:</p><ul><li>generating stubs</li><li>running apt</li><li>running kotlinc with generated code from previous steps</li><li>running javac with java sources and compiled Kotlin classes</li></ul><p>You can of course access all of this files as properties of the KotlinCompilation.Result object that is returned as a result of compile() function.</p><p>There is also a ClassLoader instance provided as a part of KotlinCompilation.Result that points to generated source, but I was somehow unable to properly load my class and validate presence of my extension function at runtime (I’ll leave this for a future post).</p><p>I’ve also create a small sample module which also uses KotlinPoet for it’s fluent API:</p><a href=https://github.com/lupajz/compile-testing-sample>lupajz/compile-testing-sample</a></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button next"><a href=/posts/place-for-bottom-bar/><span class=button__text>A place for BottomAppBar</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2020 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script><script src=/assets/prism.js></script></div></body></html>
